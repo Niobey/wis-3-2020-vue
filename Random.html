@@ -22,27 +22,25 @@
 
         <div id="name">
             <div class="row">
+                <!-- Imput new user -->
                 <div class="form-group offset-2 col-8">
                     <input class="form-control " v-model="newUser">
-                </div>
-                
-                <button type="button" class="btn btn-dark" @click.preventDe="addItem()"><i class="fas fa-check"></i></button>      
+                </div> 
+                <!-- AddItem -->
+                <button type="button" class="btn btn-dark" @click.preventDefault="addItem()"><i class="fas fa-check"></i></button>      
             </div> 
 
 
             <p>Nombre de personnes : {{ length }}</p>
 
+              <!-- User enregistré -->
             <ul>
-                <li v-for="item in tableau"  >{{ item.user }}, {{ item.id }}  </li>
+                <li v-for="item in tableau"  >{{ item.user }} -- {{ item.id }}  </li>
             </ul>
 
-            <!-- <ul>
-              <li v-for="toto in tirage"  >{{ toto.user }}, {{ toto.id }}  </li>
-          </ul> -->
-
-          
-
-  
+            <ul >
+              <li v-for="random in tirage"   >{{ random.user }}, {{ random.id }}  </li>
+          </ul>
 
           <div class="random">
             <button type="button" class="btn btn-dark" @click="random()"><i class="fas fa-random"></i></button>
@@ -64,7 +62,7 @@
 new Vue({
   el: '#name',
   data: {
-    counter: 0, 
+     
     newUser:"",
 
     tableau:  
@@ -73,15 +71,19 @@ new Vue({
       ],
     nextId:1,
 
-    tabRandom:[]
+    tabRandom:[],
+    tirage:[]
   },
 
   computed: {
     length: function() {
       return this.tableau.length
-    }
+    },
+
+    
   },
-  methods: {
+  methods: 
+  {
     addItem: function() {
       this.tableau.push({id: this.nextId++, user:this.newUser}),
       this.newUser=""
@@ -93,16 +95,17 @@ new Vue({
         i.id = Math.floor(Math.random() * 100)
         this.tabRandom.push(i)
       });
+
       const sortByMapped = (map,compareFn) => (a,b) => compareFn(map(a),map(b));
       const byValue = (a,b) => a - b;
       const toId = e => e.id;
       const byId = sortByMapped(toId,byValue);
-      let tirage =  this.tabRandom.sort(byId);
-      console.log(tirage);
-      return tirage;
-    }
 
+      this.tirage =  this.tabRandom.sort(byId);
+      // console.log(this.tirage);
+      // return tirage
     
+    }  
   }
 })
 
